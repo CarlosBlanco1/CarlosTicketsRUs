@@ -1,0 +1,27 @@
+name: carlosRunner
+on: [push] 
+jobs: 
+  DeployingPipeline: 
+    runs-on: carloslabel
+    steps: 
+     - name: "cleaning"
+       run: rm -rf ./ticketsrus-aaron-bryce-carlos
+     - name: "cloning"
+       run: git clone https://${{secrets.CARLOS_GITHUB_PASSWORD}}@github.com/SnowSE/ticketsrus-aaron-bryce-carlos.git
+     - name: "build"
+       run: | 
+        cd ./ticketsrus-aaron-bryce-carlos/StagingCarlos
+        docker compose up --build -d
+     - name: "run unit tests"
+       run: |
+        docker run --rm -v "$(pwd)/TestTicket:/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 dotnet test -p app/TestTicket/*.csproj
+     - name: "run linting"
+       run: |
+        docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet format --verify-no-changes --severity warn -p app/
+     - name: "build warnings fail"
+       run: |
+        docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet build -WarnAsError -p app/
+
+
+        
+

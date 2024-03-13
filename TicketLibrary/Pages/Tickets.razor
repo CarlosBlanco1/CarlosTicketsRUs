@@ -1,0 +1,42 @@
+@using TicketLibrary.Services
+@using Microsoft.EntityFrameworkCore
+@using TicketLibrary.Data
+@inject ITicketService ticketService
+@inject IEventService eventService
+
+<h1>Tickets</h1>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Event Name</th>
+      <th scope="col">Ticket Number</th>
+      <th scope="col">Checked In</th>
+      <th scope="col">Ticket Email</th>
+    </tr>
+  </thead>
+   <tbody>
+       @foreach(var t in tickets)
+       {
+        <tr>
+          <td>@events.FirstOrDefault(q => q.Id == t.EventId)?.EventName</td>
+          <td>@t.Ticketnumber</td>
+          <td>@t.IsScanned</td>
+          <td>@t.UserEmail</td>
+        </tr>
+            
+        }
+    </tbody>
+</table>
+
+
+
+@code{
+    public List<Ticket> tickets = new();
+    public List<Event> events = new();
+
+    protected override async Task OnInitializedAsync(){
+        tickets = await ticketService.GetAllTicketsAsync();
+        events = await eventService.GetAllEventsAsync();
+    }
+}

@@ -1,0 +1,67 @@
+﻿
+@using System.Net.Mail
+@using TicketLibrary.Services
+@using TicketLibrary.Data
+@inject MailMailMail mail
+ 
+@inject IEventService eventService
+@inject ITicketService ticketService
+
+
+<h3>Events</h3>
+
+<div class="container">
+
+    @foreach(var e in events)
+    {
+    <div class="row">
+        <div class="col-sm">
+            <img src="/Images/Event.jpg" alt="I exist" />
+            <div>@e.EventName</div>
+            <label for="enterEmail">Please enter your email here to purchase a ticket</label>
+            <input type="text" @bind="email" name="enterEmail"/>
+            <button @onclick="() => confirmPurchase(e.Id)">CONFIRM</button>
+        </div>
+    </div>
+    }
+</div>
+
+@code {
+    public List<Event> events = new();
+    public string email = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await eventService.GetAllEventsAsync();
+    }
+
+    //send the email with qr code
+    public void confirmPurchase(int eId)
+    {
+        Guid g = Guid.NewGuid();
+
+        Ticket newTicket = new Ticket()
+            { EventId = eId, IsScanned = false, UserEmail = email, Ticketnumber = g.ToString() };
+
+
+        if(IsValidEmail(email))
+        {
+            ticketService.AddATicket(newTicket);
+            var qrcode = generateQRCode.GenerateQRCodeBase64(g.ToString());
+            mail.sendEmail(email, qrcode);
+        }
+    }
+
+    public bool IsValidEmail(string anEmailAddress)
+    {
+        try
+        {
+            MailAddress m = new MailAddress(anEmailAddress);
+            return true;
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+    }
+}
