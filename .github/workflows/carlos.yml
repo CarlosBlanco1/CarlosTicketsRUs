@@ -6,7 +6,6 @@ jobs:
     steps: 
      - name: "cleaning"
        run: |
-        chmod -R u+w ./CarlosTicketsRUs
         rm -rf ./CarlosTicketsRUs
      - name: "cloning"
        run: git clone https://github.com/CarlosBlanco1/CarlosTicketsRUs.git
@@ -35,8 +34,5 @@ jobs:
     #   with:
     #     github-token: ${{ github.token }}
     #     webhook-uri: ${{ secrets.CARLOS_WEBHOOK }}
-
-    #xd
-
         
 
