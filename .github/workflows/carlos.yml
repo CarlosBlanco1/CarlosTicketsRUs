@@ -15,8 +15,8 @@ jobs:
         docker compose up --build -d
      - name: "run integration tests"
        run: |
-        cd ./CarlosTicketsRUs/
-        docker run --rm --network="container:dbcontainer" -v "$(pwd):/app" -w /app/TestTicket -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 dotnet test
+        cd ./CarlosTicketsRUs/TestTicket
+        dotnet run
      - name: "run linting"
        run: |
         cd ./CarlosTicketsRUs/
