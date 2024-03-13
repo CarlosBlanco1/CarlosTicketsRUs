@@ -14,13 +14,16 @@ jobs:
         docker compose up --build -d
      - name: "run integration tests"
        run: |
-        docker run --rm -v "$(pwd)/TestTicket:/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 dotnet test app/TestTicket/TestTicket.csproj
+        cd ./CarlosTicketsRUs/
+        docker run --rm -v "$(pwd):/app" -w /app/TestTicket mcr.microsoft.com/dotnet/sdk:8.0 dotnet test 
      - name: "run linting"
        run: |
-        docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet format --verify-no-changes --severity warn -p app/
+        cd ./CarlosTicketsRUs/
+        docker run --rm -v "$(pwd):/app" -w /app mcr.microsoft.com/dotnet/sdk:8.0 -dotnet format --verify-no-changes --severity warn 
      - name: "build warnings fail"
        run: |
-        docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet build -WarnAsError -p app/
+        cd ./CarlosTicketsRUs/
+        docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet build -WarnAsError 
 
     # - uses: actions/checkout@v2
 
