@@ -5,7 +5,9 @@ jobs:
     runs-on: carloslabel
     steps: 
      - name: "cleaning"
-       run: rm -rf ./CarlosTicketsRUs
+       run: |
+        chmod -R u+w ./CarlosTicketsRUs
+        rm -rf ./CarlosTicketsRUs
      - name: "cloning"
        run: git clone https://github.com/CarlosBlanco1/CarlosTicketsRUs.git
      - name: "build"
@@ -15,7 +17,7 @@ jobs:
      - name: "run integration tests"
        run: |
         cd ./CarlosTicketsRUs/
-        docker run --rm -v "$(pwd):/app" -w /app/TestTicket mcr.microsoft.com/dotnet/sdk:8.0 dotnet test
+        docker run --rm --network="container:dbcontainer" -v "$(pwd):/app" -w /app/TestTicket mcr.microsoft.com/dotnet/sdk:8.0 dotnet test
      - name: "run linting"
        run: |
         cd ./CarlosTicketsRUs/
