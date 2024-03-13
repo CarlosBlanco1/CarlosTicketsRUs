@@ -16,7 +16,7 @@ jobs:
      - name: "run integration tests"
        run: |
         cd ./CarlosTicketsRUs/TestTicket
-        dotnet run
+        dotnet test
      - name: "run linting"
        run: |
         cd ./CarlosTicketsRUs/
