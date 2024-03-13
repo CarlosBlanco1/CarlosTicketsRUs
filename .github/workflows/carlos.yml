@@ -15,7 +15,7 @@ jobs:
      - name: "run integration tests"
        run: |
         cd ./CarlosTicketsRUs/
-        docker run --rm --network="container:dbcontainer" -v "$(pwd):/app" -w /app/TestTicket mcr.microsoft.com/dotnet/sdk:8.0 dotnet test
+        docker run --rm -v "$(pwd):/app" -w /app/TestTicket mcr.microsoft.com/dotnet/sdk:8.0 dotnet test
      - name: "run linting"
        run: |
         cd ./CarlosTicketsRUs/

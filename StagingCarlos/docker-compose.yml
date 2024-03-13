@@ -3,7 +3,6 @@ version: "3"
 services:
 
   carlosdb:
-    container_name: dbcontainer
     image: postgres
     restart: always
     environment:
