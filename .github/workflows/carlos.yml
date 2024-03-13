@@ -14,7 +14,7 @@ jobs:
         docker compose up --build -d
      - name: "run integration tests"
        run: |
-        docker run --rm -v "$(pwd)/TestTicket:/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 dotnet test -p app/TestTicket/
+        docker run --rm -v "$(pwd)/TestTicket:/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 dotnet test app/TestTicket/TestTicket.csproj
      - name: "run linting"
        run: |
         docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet format --verify-no-changes --severity warn -p app/
