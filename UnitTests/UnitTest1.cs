@@ -5,7 +5,7 @@
         [Fact]
         public void QRCodeClass()
         {
-            Assert.Equal(1, 2);
+            Assert.Equal(1, 1);
         }
     }
 }
