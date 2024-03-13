@@ -26,13 +26,12 @@ jobs:
         cd ./CarlosTicketsRUs/
         docker run --rm -v "$(pwd):/app" -w /app/ -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 dotnet build 
 
-    # - uses: actions/checkout@v2
+     - uses: actions/checkout@v2
 
-    # - name: "Notifies Teams Channel"
-    #   uses: dchourasia/ms-teams-notification@1.0 
-    #   if: always()
-    #   with:
-    #     github-token: ${{ github.token }}
-    #     webhook-uri: ${{ secrets.CARLOS_WEBHOOK }}
-    # xddd
+     - name: "Notifies Teams Channel"
+       uses: dchourasia/ms-teams-notification@1.0 
+       if: always()
+       with:
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.CARLOS_WEBHOOK }}
 
