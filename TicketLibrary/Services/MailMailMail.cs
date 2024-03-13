@@ -1,9 +1,9 @@
-﻿using MailKit;
+﻿using System.Net.Mail;
+using MailKit;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Utils;
-using System.Net.Mail;
 
 
 namespace TicketLibrary.Services;

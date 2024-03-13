@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TicketLibrary.Services;
 using TicketLibrary.Data;
+using TicketLibrary.Services;
 
 namespace BlazorTickets.contollers;
 
@@ -20,5 +20,5 @@ public class EventController : ControllerBase
         return await _eventService.GetAllEventsAsync();
     }
 
-   
+
 }

@@ -1,4 +1,5 @@
-﻿using BlazorTickets.Data;
+﻿using System.Data.Common;
+using BlazorTickets.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using SQLite;
-using System.Data.Common;
 using Testcontainers.PostgreSql;
 
 
@@ -37,7 +37,7 @@ public class TicketFactory : WebApplicationFactory<Program>, IAsyncLifetime
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
- }
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

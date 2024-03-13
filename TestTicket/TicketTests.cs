@@ -1,4 +1,4 @@
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using TicketLibrary.Data;
 using TicketLibrary.Services;
 
@@ -18,10 +18,11 @@ public class TicketTests : IClassFixture<TicketFactory>
     [Fact]
     public void CanHavePassingTest()
     {
-        Assert.Equal(1, 1);
+        Assert.Equal(1, 2);
     }
 
-    [Fact] public async void SuccessfulScanUpdatesDatabase()
+    [Fact]
+    public async void SuccessfulScanUpdatesDatabase()
     {
 
         List<Ticket> list = new List<Ticket>();
@@ -37,7 +38,7 @@ public class TicketTests : IClassFixture<TicketFactory>
         await client.PostAsJsonAsync("api/Ticket/addticket", ticket);
         //assume a scan in Maui sets local ticket to true
         ticket.IsScanned = true;
-       
+
         list = await client.GetFromJsonAsync<List<Ticket>>("api/Ticket/getall");
         ticket.Id = list.FirstOrDefault(q => q.Ticketnumber == "testTicketNumber").Id;
         await client.PutAsJsonAsync("api/Ticket/updateticket", ticket);
@@ -49,7 +50,8 @@ public class TicketTests : IClassFixture<TicketFactory>
 
     }
 
-    [Fact] public async void FailedScanDoesntUpdatesDatabase()
+    [Fact]
+    public async void FailedScanDoesntUpdatesDatabase()
     {
 
         List<Ticket> list = new List<Ticket>();

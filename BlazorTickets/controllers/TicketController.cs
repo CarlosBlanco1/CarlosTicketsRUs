@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TicketLibrary.Services;
 using TicketLibrary.Data;
+using TicketLibrary.Services;
 
 namespace BlazorTickets.contollers;
 

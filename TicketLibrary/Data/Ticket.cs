@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
-using System.Collections;
 
 namespace TicketLibrary.Data;
 [SQLite.Table("Ticket")]

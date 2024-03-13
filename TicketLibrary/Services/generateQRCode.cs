@@ -1,6 +1,6 @@
-﻿using QRCoder;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing;
+using QRCoder;
 
 namespace TicketLibrary.Services
 {
@@ -28,7 +28,7 @@ namespace TicketLibrary.Services
 
                     return filePath;
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     throw;
                 }
