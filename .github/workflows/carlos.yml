@@ -5,14 +5,14 @@ jobs:
     runs-on: carloslabel
     steps: 
      - name: "cleaning"
-       run: rm -rf ./ticketsrus-aaron-bryce-carlos
+       run: rm -rf ./CarlosTicketsRUs
      - name: "cloning"
-       run: git clone https://${{secrets.CARLOS_GITHUB_PASSWORD}}@github.com/SnowSE/ticketsrus-aaron-bryce-carlos.git
+       run: git clone https://github.com/CarlosBlanco1/CarlosTicketsRUs.git
      - name: "build"
        run: | 
-        cd ./ticketsrus-aaron-bryce-carlos/StagingCarlos
+        cd ./CarlosTicketsRUs/StagingCarlos
         docker compose up --build -d
-     - name: "run unit tests"
+     - name: "run integration tests"
        run: |
         docker run --rm -v "$(pwd)/TestTicket:/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 dotnet test -p app/TestTicket/*.csproj
      - name: "run linting"
@@ -21,6 +21,15 @@ jobs:
      - name: "build warnings fail"
        run: |
         docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet build -WarnAsError -p app/
+
+     - uses: actions/checkout@v2
+
+     - name: "Notifies Teams Channel"
+       uses: dchourasia/ms-teams-notification@1.0 
+       if: always()
+       with:
+         github-token: ${{ github.token }}
+         webhook-uri: ${{ secrets.CARLOS_WEBHOOK }}
 
 
         
