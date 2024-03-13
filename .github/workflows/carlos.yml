@@ -16,7 +16,7 @@ jobs:
      - name: "run integration tests"
        run: |
         cd ./CarlosTicketsRUs/TestTicket
-        dotnet test
+        dotnet test -e DOTNET_CLI_HOME="/tmp/dotnet"
      - name: "run linting"
        run: |
         cd ./CarlosTicketsRUs/
