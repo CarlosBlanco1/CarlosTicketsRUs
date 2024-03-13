@@ -5,7 +5,7 @@ jobs:
     runs-on: carloslabel
     steps: 
      - name: "cleaning"
-       run: sudo rm -rf ./CarlosTicketsRUs
+       run: rm -rf ./CarlosTicketsRUs
      - name: "cloning"
        run: git clone https://github.com/CarlosBlanco1/CarlosTicketsRUs.git
      - name: "build"
