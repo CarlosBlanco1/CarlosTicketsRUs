@@ -14,7 +14,7 @@ jobs:
         docker compose up --build -d
      - name: "run integration tests"
        run: |
-        docker run --rm -v "$(pwd)/TestTicket:/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 dotnet test -p app/TestTicket/*.csproj
+        docker run --rm -v "$(pwd)/TestTicket:/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 dotnet test -p app/TestTicket/
      - name: "run linting"
        run: |
         docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet format --verify-no-changes --severity warn -p app/
@@ -22,14 +22,14 @@ jobs:
        run: |
         docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet build -WarnAsError -p app/
 
-     - uses: actions/checkout@v2
+    # - uses: actions/checkout@v2
 
-     - name: "Notifies Teams Channel"
-       uses: dchourasia/ms-teams-notification@1.0 
-       if: always()
-       with:
-         github-token: ${{ github.token }}
-         webhook-uri: ${{ secrets.CARLOS_WEBHOOK }}
+    # - name: "Notifies Teams Channel"
+    #   uses: dchourasia/ms-teams-notification@1.0 
+    #   if: always()
+    #   with:
+    #     github-token: ${{ github.token }}
+    #     webhook-uri: ${{ secrets.CARLOS_WEBHOOK }}
 
 
         
