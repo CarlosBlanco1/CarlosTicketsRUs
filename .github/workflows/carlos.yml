@@ -20,11 +20,11 @@ jobs:
      - name: "run linting"
        run: |
         cd ./CarlosTicketsRUs/
-        docker run --rm -v "$(pwd):/app" -w /app mcr.microsoft.com/dotnet/sdk:8.0 -dotnet format --verify-no-changes --severity warn 
+        docker run --rm -v "$(pwd):/app" -w /app -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 -dotnet format --verify-no-changes --severity warn 
      - name: "build warnings fail"
        run: |
         cd ./CarlosTicketsRUs/
-        docker run --rm -v "$(pwd):/app" -w /app/ mcr.microsoft.com/dotnet/sdk:8.0 -dotnet build -WarnAsError 
+        docker run --rm -v "$(pwd):/app" -w /app/ -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 -dotnet build -WarnAsError 
 
     # - uses: actions/checkout@v2
 
