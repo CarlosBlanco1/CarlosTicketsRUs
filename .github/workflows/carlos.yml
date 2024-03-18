@@ -32,7 +32,6 @@ jobs:
      - name: "prometheus" 
        run: |
         cd ./CarlosTicketsRUs/
-        docker stop carlos_prometheus 
         docker rm -f carlos_prometheus
         docker run --rm -d --name carlos_prometheus --hostname prometheus -p 5767:9090 -v "$(pwd)/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml" prom/prometheus:v2.43.0
      - name: "grafana" 
