@@ -17,4 +17,4 @@ scrape_configs:
   - job_name: 'metrics'
     scrape_interval: 5s 
     static_configs:
-      - targets: ['carlos_otel:2121']
+      - targets: ['otel-collector:2121']
