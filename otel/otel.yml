@@ -12,7 +12,7 @@ exporters:
     tls:
       insecure: true
   zipkin:
-    endpoint: http://zipkin:9411/api/v2/spans
+    endpoint: http://carlos_zipkin:9411/api/v2/spans
 
 extensions:
   zpages:
