@@ -3,7 +3,6 @@ version: "3"
 services:
 
   carlosdb:
-    container_name: dbcontainer
     image: postgres
     restart: always
     environment:
@@ -12,6 +11,11 @@ services:
       POSTGRES_PASSWORD: P@ssword1
     volumes:
       - ../TestTicket/20240215.01.21.01.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   blazor:
    container_name: blazor
@@ -22,5 +26,12 @@ services:
      - ASPNETCORE_ENVIRONMENT=Production
      - Postgres=Server=carlosdb;Database=postgres;Port=5432;User ID=ticketuser;Password=P@ssword1
    ports:
-     - "4765:8080" 
+     - "4765:8080"
+   healthcheck:
+      test: curl --fail http://localhost:4765/health || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+     
 
