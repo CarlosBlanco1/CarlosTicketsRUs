@@ -44,7 +44,7 @@ builder.Services.AddOpenTelemetry()
         .AddSource(CarlosTracing.traceName2)
         .AddOtlpExporter(o =>
         {
-            o.Endpoint = new Uri("http://otel-collector:4317/");
+            o.Endpoint = new Uri("http://otel-collector:4417/");
         });
     })
     .WithMetrics(b =>
@@ -54,7 +54,7 @@ builder.Services.AddOpenTelemetry()
         .AddMeter(CarlosMetric.MetricName)
         .AddOtlpExporter(o =>
         {
-            o.Endpoint = new Uri("http://otel-collector:4317/");
+            o.Endpoint = new Uri("http://otel-collector:4417/");
         });
     });
 
