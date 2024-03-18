@@ -37,7 +37,6 @@ jobs:
         docker network disconnect carlos_network carlos_blackbox 
         docker network disconnect carlos_network carlos_loki
         docker network disconnect carlos_network carlos_zipkin
-        docker network disconnect carlos_network carlos_otel
         docker network create carlos_network
 
      - name: "prometheus" 
