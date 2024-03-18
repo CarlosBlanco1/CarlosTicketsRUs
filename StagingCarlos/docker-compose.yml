@@ -93,7 +93,7 @@ services:
   otel-collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib/releases
     container_name: carlos_otel
-    hostname: otel
+    hostname: carlos_otel
     image: otel/opentelemetry-collector-contrib:0.75.0
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
