@@ -32,31 +32,37 @@ jobs:
      - name: "prometheus" 
        run: |
         cd ./CarlosTicketsRUs/
+        docker stop prometheus
         docker rm prometheus
         docker run --name prometheus --hostname prometheus -p 4767:9090 --restart unless-stopped -v "$(pwd)/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml" -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) prom/prometheus:v2.43.0
      - name: "grafana" 
        run: |
         cd ./CarlosTicketsRUs/
+        docker stop grafana
         docker rm -f grafana
         docker run --name grafana -e GF_AUTH_ANONYMOUS_ENABLED=true -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin -e GF_AUTH_DISABLE_LOGIN_FORM=true -p 4768:3000 --restart unless-stopped -v "$(pwd)/grafana/provisioning:/etc/grafana/provisioning" -v grafana-data:/var/lib/grafana -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) grafana/grafana:9.4.7
      - name: "blackbox" 
        run: |
         cd ./CarlosTicketsRUs/
+        docker stop blackbox
         docker rm -f blackbox
         docker run --name blackbox -p 4766:9115 --restart unless-stopped -v "$(pwd)/blackbox/blackbox.yml:/etc/blackbox/blackbox.yml" -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) prom/blackbox-exporter:v0.23.0 --config.file=/etc/blackbox/blackbox.yml
      - name: "loki" 
        run: |
         cd ./CarlosTicketsRUs/
+        docker stop loki
         docker rm -f loki
         docker run --name loki -p 3100:3100 --restart unless-stopped -v "$(pwd)/loki/loki.yml:/etc/loki/local-config.yaml" -v loki:/data/loki -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) grafana/loki:2.8.0 --config.file=/etc/loki/local-config.yaml
      - name: "zipkin" 
        run: |
         cd ./CarlosTicketsRUs/
+        docker stop zipkin
         docker rm -f zipkin
         docker run --name zipkin -p 9411:9411 --restart unless-stopped -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) openzipkin/zipkin
      - name: "otel"
        run: |
         cd ./CarlosTicketsRUs/
+        docker stop otel
         docker rm -f otel
         docker run --name otel --hostname otel -v $(pwd)/otel/otel.yml:/etc/otel-collector-config.yaml -p 4317:4317 -p 9200:9200 -p 8888:8888 -p 8889:8889 --restart unless-stopped otel/opentelemetry-collector-contrib:0.75.0 --config=/etc/otel-collector-config.yaml
 
