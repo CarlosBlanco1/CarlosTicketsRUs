@@ -35,7 +35,7 @@ jobs:
         docker run --rm -d --name carlos_prometheus prom/prometheus:v2.43.0
         docker stop carlos_prometheus 
         docker rm -f carlos_prometheus
-        docker run --rm -d --name carlos_prometheus --hostname prometheus -p 4767:9090 -v "$(pwd)/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml" prom/prometheus:v2.43.0
+        docker run --rm -d --name carlos_prometheus --hostname prometheus -p 5767:9090 -v "$(pwd)/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml" prom/prometheus:v2.43.0
      - name: "grafana" 
        run: |
         cd ./CarlosTicketsRUs/
@@ -68,7 +68,8 @@ jobs:
        run: |
         cd ./CarlosTicketsRUs/
         docker run --rm -d --name carlos_otel otel/opentelemetry-collector-contrib:0.75.0
-        docker stop carlos_otel && docker rm -f carlos_otel
+        docker stop carlos_otel 
+        docker rm -f carlos_otel
         docker run --rm -d --name carlos_otel --hostname otel -v $(pwd)/otel/otel.yml:/etc/otel-collector-config.yaml -p 4317:4317 -p 9200:9200 -p 8888:8888 -p 8889:8889 otel/opentelemetry-collector-contrib:0.75.0 --config=/etc/otel-collector-config.yaml
 
      #- uses: actions/checkout@v2
