@@ -32,7 +32,6 @@ jobs:
 
      - name: "network setup"
        run: |
-        docker network rm carlos_network
         docker network create carlos_network
 
      - name: "prometheus" 
