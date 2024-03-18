@@ -49,7 +49,7 @@ jobs:
        run: |
         cd ./CarlosTicketsRUs/
         docker rm -f carlos_loki
-        docker run --rm -d --name carlos_loki -p 3100:3100 -v "$(pwd)/loki/loki.yml:/etc/loki/local-config.yaml" -v loki:/data/loki grafana/loki:2.8.0 --config.file=/etc/loki/local-config.yaml
+        docker run --rm -d --name carlos_loki -p 5100:5100 -v "$(pwd)/loki/loki.yml:/etc/loki/local-config.yaml" -v loki:/data/loki grafana/loki:2.8.0 --config.file=/etc/loki/local-config.yaml
      - name: "zipkin" 
        run: |
         cd ./CarlosTicketsRUs/

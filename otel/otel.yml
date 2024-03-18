@@ -8,7 +8,7 @@ exporters:
   prometheus:
     endpoint: "0.0.0.0:2121"
   loki:
-    endpoint: http://loki:3100/loki/api/v1/push
+    endpoint: http://loki:5100/loki/api/v1/push
     tls:
       insecure: true
   zipkin:
@@ -31,7 +31,7 @@ service:
     metrics:
       receivers: [otlp]
       exporters: [prometheus]
-      
+
     logs:
       receivers: [otlp]
       processors: [batch]
