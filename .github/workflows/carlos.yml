@@ -32,7 +32,16 @@ jobs:
 
      - name: "network setup"
        run: |
-        docker network rm -f carlos_network
+        network_name="carlos_network"
+
+        container_ids=$(docker network inspect --format='{{range .Containers}}{{.Name}} {{end}}' "$network_name") 
+
+        for container_id in $container_ids; do
+           docker network disconnect "$network_name" "$container_id"
+        done
+
+        docker network rm "$network_name"
+        
         docker network create carlos_network
 
      - name: "prometheus" 
