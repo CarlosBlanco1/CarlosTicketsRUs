@@ -11,7 +11,7 @@ scrape_configs:
     module: [http_2xx] #Look for 200 reposne
   static_configs:
   - targets:
-    - http://blazor:8085/health #Healthcheck API endpoint
+    - http://carlos_blazor:8080/health #Healthcheck API endpoint
   relabel_configs:
   - source_labels: [__address__]
     target_label: __param_target
