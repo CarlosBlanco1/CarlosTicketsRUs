@@ -16,7 +16,7 @@ exporters:
 
 extensions:
   zpages:
-      endpoint: carlos_otel:9200
+      endpoint: carlos_otel:8200
 
 processors:
   batch:

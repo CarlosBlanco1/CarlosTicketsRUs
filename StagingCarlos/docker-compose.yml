@@ -100,7 +100,7 @@ services:
       - ../otel/otel.yml:/etc/otel-collector-config.yaml
     ports:
       - 4317:4317 #OTLP gRPC receiver
-      - 9200:9200  # zpages
+      - 8200:8200  # zpages
       - 8888:8888   
       - 8889:8889   
     restart: unless-stopped   
