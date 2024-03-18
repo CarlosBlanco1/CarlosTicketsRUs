@@ -102,7 +102,7 @@ services:
       - 4317:4317 #OTLP gRPC receiver
       - 8200:8200  # zpages
       - 8888:8888   
-      - 8889:8889   
+      - 8789:8789   
     restart: unless-stopped   
 
   zipkin:
