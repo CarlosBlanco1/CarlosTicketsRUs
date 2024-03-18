@@ -59,7 +59,7 @@ jobs:
        run: |
         cd ./CarlosTicketsRUs/
         docker rm -f carlos_otel
-        docker run --rm -d --name carlos_otel --hostname otel -v $(pwd)/otel/otel.yml:/etc/otel-collector-config.yaml -p 4317:4317 -p 7200:7200 -p 8888:8888 -p 8889:8889 otel/opentelemetry-collector-contrib:0.75.0 --config=/etc/otel-collector-config.yaml
+        docker run --rm -d --name carlos_otel --hostname otel -v $(pwd)/otel/otel.yml:/etc/otel-collector-config.yaml -p 4317:4317 -p 7200:7200 -p 8888:8888 -p 8989:8989 otel/opentelemetry-collector-contrib:0.75.0 --config=/etc/otel-collector-config.yaml
 
      #- uses: actions/checkout@v2
 
