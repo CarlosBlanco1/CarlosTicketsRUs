@@ -4,12 +4,12 @@ using BlazorTickets.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using SixLabors.ImageSharp;
-using TicketLibrary.Services;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using SixLabors.ImageSharp;
+using TicketLibrary.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,7 +47,7 @@ builder.Services.AddOpenTelemetry()
             o.Endpoint = new Uri("http://otel-collector:4317/");
         });
     })
-    .WithMetrics(b => 
+    .WithMetrics(b =>
     {
         b
         .AddAspNetCoreInstrumentation()
@@ -57,8 +57,8 @@ builder.Services.AddOpenTelemetry()
             o.Endpoint = new Uri("http://otel-collector:4317/");
         });
     });
-    
-  
+
+
 
 var app = builder.Build();
 
@@ -67,8 +67,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
 }
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -100,4 +100,4 @@ app.MapRazorComponents<App>()
 
 app.Run();
 
-public partial class Program {  };
+public partial class Program { };

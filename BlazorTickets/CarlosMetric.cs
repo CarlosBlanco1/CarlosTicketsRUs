@@ -1,4 +1,4 @@
-using System.Diagnostics.Metrics;
+﻿using System.Diagnostics.Metrics;
 using Microsoft.VisualBasic;
 using OpenTelemetry.Metrics;
 public static class CarlosMetric
