@@ -32,11 +32,6 @@ jobs:
 
      - name: "network setup"
        run: |
-        docker network disconnect carlos_network carlos_prometheus
-        docker network disconnect carlos_network carlos_grafana
-        docker network disconnect carlos_network carlos_blackbox 
-        docker network disconnect carlos_network carlos_loki
-        docker network disconnect carlos_network carlos_zipkin
         docker network create carlos_network
 
      - name: "prometheus" 
