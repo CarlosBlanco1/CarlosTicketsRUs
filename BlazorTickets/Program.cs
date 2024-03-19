@@ -59,6 +59,20 @@ builder.Services.AddOpenTelemetry()
         });
     });
 
+builder.Logging.AddOpenTelemetry(options =>
+{
+    options
+    .SetResourceBuilder(
+        ResourceBuilder
+        .CreateDefault()
+        .AddService(serviceName)
+    )
+    .AddOtlpExporter(o =>
+    {
+        o.Endpoint = new Uri("http://otel-collector:4317/");
+    });
+});
+
 
 
 var app = builder.Build();

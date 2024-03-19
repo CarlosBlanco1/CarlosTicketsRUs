@@ -8,7 +8,7 @@ exporters:
   prometheus:
     endpoint: "0.0.0.0:1234"
   loki:
-    endpoint: http://carlos_loki:4100/loki/api/v1/push
+    endpoint: http://carlos_loki:3100/loki/api/v1/push
     tls:
       insecure: true
   zipkin:
