@@ -37,7 +37,8 @@ const string serviceName = "carlos service";
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService(serviceName))
     .WithTracing(b =>
-    {b
+    {
+        b
         .AddAspNetCoreInstrumentation()
         .AddSource(CarlosTracing.traceName)
         .AddSource(CarlosTracing.traceName2)
@@ -47,7 +48,8 @@ builder.Services.AddOpenTelemetry()
         });
     })
     .WithMetrics(b =>
-    {b
+    {
+        b
         .AddAspNetCoreInstrumentation()
         .AddMeter(CarlosMetric.MetricName)
         .AddPrometheusExporter()
