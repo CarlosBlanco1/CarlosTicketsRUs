@@ -6,29 +6,32 @@ receivers:
 
 exporters:
   prometheus:
-    endpoint: "0.0.0.0:2121"
+    endpoint: "0.0.0.0:1234"
   loki:
-    endpoint: http://carlos_loki:3100/loki/api/v1/push
+    endpoint: http://carlos_loki:4100/loki/api/v1/push
     tls:
       insecure: true
   zipkin:
     endpoint: http://carlos_zipkin:9411/api/v2/spans
 
 extensions:
-  zpages:
-      endpoint: carlos_otel:8200
+  health_check:     
 
 processors:
   batch:
 
 service:
-  extensions: [zpages] 
+  extensions: [health_check] 
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
       exporters: [zipkin]
-
     metrics:
       receivers: [otlp]
+      processors: []
       exporters: [prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [loki]

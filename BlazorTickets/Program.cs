@@ -14,6 +14,7 @@ using TicketLibrary.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddLogging();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -34,27 +35,25 @@ builder.Logging.ClearProviders();
 const string serviceName = "carlos service";
 
 builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource =>
-          resource.AddService(serviceName))
+    .ConfigureResource(resource => resource.AddService(serviceName))
     .WithTracing(b =>
-    {
-        b
+    {b
         .AddAspNetCoreInstrumentation()
         .AddSource(CarlosTracing.traceName)
         .AddSource(CarlosTracing.traceName2)
         .AddOtlpExporter(o =>
         {
-            o.Endpoint = new Uri("http://otel-collector:5317/");
+            o.Endpoint = new Uri("http://otel-collector:4317/");
         });
     })
     .WithMetrics(b =>
-    {
-        b
+    {b
         .AddAspNetCoreInstrumentation()
         .AddMeter(CarlosMetric.MetricName)
+        .AddPrometheusExporter()
         .AddOtlpExporter(o =>
         {
-            o.Endpoint = new Uri("http://otel-collector:5317/");
+            o.Endpoint = new Uri("http://otel-collector:4317/");
         });
     });
 
