@@ -8,6 +8,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using TicketLibrary.Services;
 
@@ -24,16 +25,18 @@ builder.Services.AddScoped<IEventService, WebEventService>();
 builder.Services.AddControllers();
 builder.Services.AddScoped<MailMailMail>();
 builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(builder.Configuration["Postgres"]));
+builder.Services.AddSingleton<CarlosHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHealthChecks();
 
-builder.Logging.ClearProviders();
+// builder.Logging.ClearProviders();
 
 const string serviceName = "carlos service";
 
+Console.WriteLine("got here! 1");
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService(serviceName))
     .WithTracing(b =>
@@ -73,6 +76,9 @@ builder.Logging.AddOpenTelemetry(options =>
     });
 });
 
+Console.WriteLine("got here! 2");
+
+
 
 
 var app = builder.Build();
@@ -92,6 +98,16 @@ app.UseHttpsRedirection();
 app.MapGet("/carlosCustomTrace1", () => CarlosTracing.MyActivitySource.StartActivity("CarlosActivty1"));
 app.MapGet("/carlosCustomTrace2", () => CarlosTracing.MyActivitySource2.StartActivity("CarlosActivty2"));
 
+var handler = app.Services.GetRequiredService<CarlosHandler>();
+
+app.MapGet("/request1", () => handler.HandleRequest1());
+app.MapGet("/request2", () => handler.HandleRequest2());
+app.MapGet("/request3", () => handler.HandleRequest3());
+app.MapGet("/request4", () => handler.HandleRequest4());
+app.MapGet("/request5", () => handler.HandleRequest5());
+
+Console.WriteLine("got here! 3");
+
 
 
 app.MapHealthChecks("/health", new HealthCheckOptions
@@ -105,13 +121,18 @@ app.MapHealthChecks("/health", new HealthCheckOptions
                 }
 });
 
+
 app.MapControllers();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+Console.WriteLine("got here! 4");
+
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+Console.WriteLine("got here! 5");
+
 
 app.Run();
 

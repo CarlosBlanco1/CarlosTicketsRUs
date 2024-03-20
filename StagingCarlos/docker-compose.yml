@@ -81,7 +81,7 @@ services:
   loki:
     # https://github.com/grafana/loki/releases
     image: grafana/loki:2.8.0
-    container_name: carlos_loki
+    container_name: loki
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ../loki/loki.yml:/etc/loki/local-config.yaml
