@@ -36,7 +36,7 @@ partial class CarlosHandler(ILogger<CarlosHandler> logger)
     [LoggerMessage(LogLevel.Warning, "ExampleHandler.HandleRequest2 was called with {Description}")]
     public static partial void LogHandleRequest2(ILogger logger, string description);
 
-    [LoggerMessage(LogLevel.Debug, "ExampleHandler.HandleRequest3 was called with {Description}")]
+    [LoggerMessage(LogLevel.Error, "ExampleHandler.HandleRequest3 was called with {Description}")]
     public static partial void LogHandleRequest3(ILogger logger, string description);
 
     [LoggerMessage(LogLevel.Information, "ExampleHandler.HandleRequest4 was called with {Description}")]
