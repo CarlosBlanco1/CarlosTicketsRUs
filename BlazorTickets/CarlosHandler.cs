@@ -1,4 +1,4 @@
-partial class CarlosHandler(ILogger<CarlosHandler> logger)
+﻿partial class CarlosHandler(ILogger<CarlosHandler> logger)
 {
     public string HandleRequest1()
     {
