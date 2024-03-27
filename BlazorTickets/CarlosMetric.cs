@@ -18,7 +18,7 @@ public class CarlosMetric
     public CarlosMetric(IMeterFactory meterFactory)
     {
         var meter = meterFactory.Create(MetricName);
-        count = meter.CreateCounter<int>("carlos.randomcounter"); 
+        count = meter.CreateCounter<int>("carlos.randomcounter");
         upDownCounter = meter.CreateUpDownCounter<int>("carlos.randomupdowncounter");
         observableCounter = meter.CreateObservableCounter<int>("carlos.randomobservablecounter", () => valueToObserve);
         observableGauge = meter.CreateObservableGauge<int>("carlos.randomobservablegauge", () => valueForGaugeToObserve);
@@ -32,7 +32,7 @@ public class CarlosMetric
         valueToObserve += 7;
         valueForGaugeToObserve += 10;
         valueForObservableUpDownCounterToObserve += 13;
-        histogram?.Record(carlosRandom.Next(1,11));
+        histogram?.Record(carlosRandom.Next(1, 11));
 
         return @$"
         Current counter value: {count}
