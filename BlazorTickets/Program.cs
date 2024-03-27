@@ -26,13 +26,12 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<MailMailMail>();
 builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(builder.Configuration["Postgres"]));
 builder.Services.AddSingleton<CarlosHandler>();
+builder.Services.AddSingleton<CarlosMetric>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHealthChecks();
-
-// builder.Logging.ClearProviders();
 
 const string serviceName = "carlos service";
 
@@ -106,8 +105,9 @@ app.MapGet("/request3", () => handler.HandleRequest3());
 app.MapGet("/request4", () => handler.HandleRequest4());
 app.MapGet("/request5", () => handler.HandleRequest5());
 
-Console.WriteLine("got here! 3");
-
+//Metrics
+var metric = app.Services.GetRequiredService<CarlosMetric>();
+app.MapGet("/counterMetric", () => metric.triggerMetrics());
 
 
 app.MapHealthChecks("/health", new HealthCheckOptions
@@ -126,13 +126,10 @@ app.MapControllers();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-Console.WriteLine("got here! 4");
-
-
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-Console.WriteLine("got here! 5");
 
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 app.Run();
 
