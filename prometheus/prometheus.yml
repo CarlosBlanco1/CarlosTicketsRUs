@@ -23,8 +23,4 @@ scrape_configs:
     scrape_interval: 5s 
     static_configs:
       - targets: ['carlos_blazor:8080']
-  - job_name: 'Metrics'
-    scrape_interval: 5s
-    static_configs:
-      - targets: ['otel-collector:1234']
 #xd
