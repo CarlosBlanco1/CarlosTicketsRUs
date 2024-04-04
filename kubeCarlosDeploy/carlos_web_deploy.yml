@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: carlos
+  name: carlos-web-deployment
+  labels:
+    app: carlos-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carlos-web
+  template:
+    metadata:
+      labels:
+        app: carlos-web
+    spec:
+      containers:
+      - name: carlos-web
+        image: 144.17.92.12:5000/carlos/carlos-web:1
+        ports:
+        - containerPort: 8080

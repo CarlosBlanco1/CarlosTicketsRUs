@@ -112,14 +112,14 @@ services:
     ports:
       - 9411:9411
 
-  proxy:
-    image: nginx
-    container_name: carlos_nginx
-    ports:
-      - 5467:80
-    volumes:
-      - ./nginx-default.conf:/config/nginx/conf.d/default.conf
-    restart: unless-stopped
+  # proxy:
+  #   image: nginx
+  #   container_name: carlos_nginx
+  #   ports:
+  #     - 5467:80
+  #   volumes:
+  #     - ./nginx-default.conf:/config/nginx/conf.d/default.conf
+  #   restart: unless-stopped
     
   swag:
     image: lscr.io/linuxserver/swag

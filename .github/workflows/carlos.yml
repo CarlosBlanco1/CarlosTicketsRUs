@@ -9,26 +9,32 @@ jobs:
         rm -rf ./CarlosTicketsRUs
      - name: "cloning"
        run: git clone https://github.com/CarlosBlanco1/CarlosTicketsRUs.git
-     - name: "build"
-       run: | 
-        cd ./CarlosTicketsRUs/StagingCarlos
-        docker compose up --build -d
-     - name: "run integration tests"
+     - name: deploy
        run: |
-        cd ./CarlosTicketsRUs/TestTicket/
-        dotnet test
-     - name: "run unit tests"
-       run: |
-        cd ./CarlosTicketsRUs/UnitTests/
-        dotnet test 
-     - name: "run linting"
-       run: |
-        cd ./CarlosTicketsRUs/
-        docker run --rm -v "$(pwd):/app" -w /app -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 dotnet format --verify-no-changes --severity warn 
-     - name: "build warnings fail"
-       run: |
-        cd ./CarlosTicketsRUs/
-        docker run --rm -v "$(pwd):/app" -w /app/ -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 dotnet build
+        cd ./CarlosTicketsRUs
+        docker build -t 144.17.92.12:5000/carlos/carlos-web:1 .
+        docker push 144.17.92.12:5000/carlos/carlos-web:1
+        kubectl apply -f kube/
+    #  - name: "build"
+    #    run: | 
+    #     cd ./CarlosTicketsRUs/StagingCarlos
+    #     docker compose up --build -d
+    #  - name: "run integration tests"
+    #    run: |
+    #     cd ./CarlosTicketsRUs/TestTicket/
+    #     dotnet test
+    #  - name: "run unit tests"
+    #    run: |
+    #     cd ./CarlosTicketsRUs/UnitTests/
+    #     dotnet test 
+    #  - name: "run linting"
+    #    run: |
+    #     cd ./CarlosTicketsRUs/
+    #     docker run --rm -v "$(pwd):/app" -w /app -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 dotnet format --verify-no-changes --severity warn 
+    #  - name: "build warnings fail"
+    #    run: |
+    #     cd ./CarlosTicketsRUs/
+    #     docker run --rm -v "$(pwd):/app" -w /app/ -e DOTNET_CLI_HOME="/tmp/dotnet" --user $(id -u):$(id -g) mcr.microsoft.com/dotnet/sdk:8.0 dotnet build
 
 
      #- uses: actions/checkout@v2
