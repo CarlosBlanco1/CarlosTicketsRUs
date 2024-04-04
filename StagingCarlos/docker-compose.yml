@@ -136,7 +136,7 @@ services:
       - STAGING=true
       - EXTRA_DOMAINS=carlos-telemetry-grafana.duckdns.org
     volumes:
-      - swag_data:/config
+      - carlos_swag_data:/config
       - ./nginx-default.conf:/config/nginx/site-confs/default.conf
     ports:
       - 6546:443 # we will only care about https stuff
@@ -146,6 +146,6 @@ volumes:
   loki:
   prometheus:
   grafana-data:
-  swag_data:
+  carlos_swag_data:
 
 
