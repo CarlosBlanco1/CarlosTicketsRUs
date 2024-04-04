@@ -20,3 +20,6 @@ spec:
         image: 144.17.92.12:5000/carlos/carlos-web:1
         ports:
         - containerPort: 8080
+        env:
+            - name: Postgres
+              value: Server=blazor-web-db-service;password=P@ssword1;user id=ticketuser;database=postgres;
