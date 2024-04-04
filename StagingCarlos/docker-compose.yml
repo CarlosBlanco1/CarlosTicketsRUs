@@ -123,7 +123,7 @@ services:
     
   swag:
     image: lscr.io/linuxserver/swag
-    container_name: swag
+    container_name: carlos_swag
     cap_add:
       - NET_ADMIN
     environment:
