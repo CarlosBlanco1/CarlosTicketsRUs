@@ -24,12 +24,13 @@ builder.Services.AddScoped<ITicketService, WebTicketService>();
 builder.Services.AddScoped<IEventService, WebEventService>();
 builder.Services.AddControllers();
 builder.Services.AddScoped<MailMailMail>();
-builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(builder.Configuration["Postgres"]));
 builder.Services.AddSingleton<CarlosHandler>();
 builder.Services.AddSingleton<CarlosMetric>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContextFactory<PostgresContext>(options => options.UseNpgsql("Name=Postgres"));
 
 builder.Services.AddHealthChecks();
 

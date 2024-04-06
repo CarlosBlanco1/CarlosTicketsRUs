@@ -6,13 +6,13 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: ticketuser
+      POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: P@ssword1
     volumes:
       - ../TestTicket/20240215.01.21.01.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,7 +24,7 @@ services:
    build: ..
    environment:
      - ASPNETCORE_ENVIRONMENT=Production
-     - Postgres=Server=carlosdb;Database=postgres;Port=5432;User ID=ticketuser;Password=P@ssword1
+     - Postgres=Server=carlosdb;Database=postgres;Port=5432;User ID=postgres;Password=P@ssword1
    ports:
      - "4765:8080"
    healthcheck:
@@ -34,118 +34,118 @@ services:
       start_period: 20s
       timeout: 10s
 
-  blackbox:
-    # https://github.com/prometheus/blackbox_exporter/releases
-   image: prom/blackbox-exporter:v0.23.0
-   container_name: carlos_blackbox
-   restart: unless-stopped
-   ports:
-      - "4766:9115"
-   volumes:
-      - ../blackbox/blackbox.yml:/etc/blackbox/blackbox.yml
-   command: --config.file=/etc/blackbox/blackbox.yml
-   depends_on:
-    - blazor
+#   blackbox:
+#     # https://github.com/prometheus/blackbox_exporter/releases
+#    image: prom/blackbox-exporter:v0.23.0
+#    container_name: carlos_blackbox
+#    restart: unless-stopped
+#    ports:
+#       - "4766:9115"
+#    volumes:
+#       - ../blackbox/blackbox.yml:/etc/blackbox/blackbox.yml
+#    command: --config.file=/etc/blackbox/blackbox.yml
+#    depends_on:
+#     - blazor
      
-  prometheus:
-    # https://github.com/prometheus/prometheus/releases
-   image: prom/prometheus:v2.43.0
-   container_name: carlos_prometheus
-   hostname: prometheus
-   restart: unless-stopped
-   ports:
-      - "4767:9090"
-   volumes:
-      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-   depends_on:
-      - blackbox
+#   prometheus:
+#     # https://github.com/prometheus/prometheus/releases
+#    image: prom/prometheus:v2.43.0
+#    container_name: carlos_prometheus
+#    hostname: prometheus
+#    restart: unless-stopped
+#    ports:
+#       - "4767:9090"
+#    volumes:
+#       - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#    depends_on:
+#       - blackbox
 
-  grafana:
-    # https://github.com/grafana/grafana/releases
-    image: grafana/grafana:9.4.7
-    container_name: carlos_grafana
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-    volumes:
-      - grafana-data:/var/lib/grafana
-      - ../grafana/provisioning:/etc/grafana/provisioning
-    restart: unless-stopped
-    user: root
-    ports:
-      - "4768:3000"
-    depends_on:
-      - prometheus 
+#   grafana:
+#     # https://github.com/grafana/grafana/releases
+#     image: grafana/grafana:9.4.7
+#     container_name: carlos_grafana
+#     environment:
+#       - GF_AUTH_ANONYMOUS_ENABLED=true
+#       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+#       - GF_AUTH_DISABLE_LOGIN_FORM=true
+#     volumes:
+#       - grafana-data:/var/lib/grafana
+#       - ../grafana/provisioning:/etc/grafana/provisioning
+#     restart: unless-stopped
+#     user: root
+#     ports:
+#       - "4768:3000"
+#     depends_on:
+#       - prometheus 
 
-  loki:
-    # https://github.com/grafana/loki/releases
-    image: grafana/loki:2.8.0
-    container_name: loki
-    command: -config.file=/etc/loki/local-config.yaml
-    volumes:
-      - ../loki/loki.yml:/etc/loki/local-config.yaml
-      - loki:/data/loki
-    restart: unless-stopped
-    ports:
-      - 3100:3100
+#   loki:
+#     # https://github.com/grafana/loki/releases
+#     image: grafana/loki:2.8.0
+#     container_name: loki
+#     command: -config.file=/etc/loki/local-config.yaml
+#     volumes:
+#       - ../loki/loki.yml:/etc/loki/local-config.yaml
+#       - loki:/data/loki
+#     restart: unless-stopped
+#     ports:
+#       - 3100:3100
 
-  otel-collector:
-    # https://github.com/open-telemetry/opentelemetry-collector-contrib/releases
-    container_name: carlos_otel
-    hostname: carlos_otel
-    image: otel/opentelemetry-collector-contrib:0.75.0
-    command: ["--config=/etc/otel-collector-config.yaml"]
-    volumes:
-      - ../otel/otel.yml:/etc/otel-collector-config.yaml
-    ports:
-      - 5317:4317 #OTLP gRPC receiver
-      - 8200:8200  # zpages
-      - 8788:8788   
-      - 8789:8789   
-    restart: unless-stopped   
+#   otel-collector:
+#     # https://github.com/open-telemetry/opentelemetry-collector-contrib/releases
+#     container_name: carlos_otel
+#     hostname: carlos_otel
+#     image: otel/opentelemetry-collector-contrib:0.75.0
+#     command: ["--config=/etc/otel-collector-config.yaml"]
+#     volumes:
+#       - ../otel/otel.yml:/etc/otel-collector-config.yaml
+#     ports:
+#       - 5317:4317 #OTLP gRPC receiver
+#       - 8200:8200  # zpages
+#       - 8788:8788   
+#       - 8789:8789   
+#     restart: unless-stopped   
 
-  zipkin:
-    container_name: carlos_zipkin
-    restart: always
-    image: openzipkin/zipkin
-    ports:
-      - 9411:9411
+#   zipkin:
+#     container_name: carlos_zipkin
+#     restart: always
+#     image: openzipkin/zipkin
+#     ports:
+#       - 9411:9411
 
-  # proxy:
-  #   image: nginx
-  #   container_name: carlos_nginx
-  #   ports:
-  #     - 5467:80
-  #   volumes:
-  #     - ./nginx-default.conf:/config/nginx/conf.d/default.conf
-  #   restart: unless-stopped
+#   proxy:
+#     image: nginx
+#     container_name: carlos_nginx
+#     ports:
+#       - 5467:80
+#     volumes:
+#       - ./nginx-default.conf:/config/nginx/conf.d/default.conf
+#     restart: unless-stopped
     
-  swag:
-    image: lscr.io/linuxserver/swag
-    container_name: carlos_swag
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Denver
-      - URL=carlos-telemetry.duckdns.org
-      - VALIDATION=duckdns
-      - DUCKDNSTOKEN=b27434f8-b4ae-40c4-afba-c6541a9b8633
-      - STAGING=true
-      - EXTRA_DOMAINS=carlos-telemetry-grafana.duckdns.org
-    volumes:
-      - carlos_swag_data:/config
-      - ./nginx-default.conf:/config/nginx/site-confs/default.conf
-    ports:
-      - 6546:443 # we will only care about https stuff
-    restart: unless-stopped
+#   swag:
+#     image: lscr.io/linuxserver/swag
+#     container_name: carlos_swag
+#     cap_add:
+#       - NET_ADMIN
+#     environment:
+#       - PUID=1000
+#       - PGID=1000
+#       - TZ=America/Denver
+#       - URL=carlos-telemetry.duckdns.org
+#       - VALIDATION=duckdns
+#       - DUCKDNSTOKEN=b27434f8-b4ae-40c4-afba-c6541a9b8633
+#       - STAGING=true
+#       - EXTRA_DOMAINS=carlos-telemetry-grafana.duckdns.org
+#     volumes:
+#       - carlos_swag_data:/config
+#       - ./nginx-default.conf:/config/nginx/site-confs/default.conf
+#     ports:
+#       - 6546:443 # we will only care about https stuff
+#     restart: unless-stopped
 
-volumes:
-  loki:
-  prometheus:
-  grafana-data:
-  carlos_swag_data:
+# volumes:
+#   loki:
+#   prometheus:
+#   grafana-data:
+#   carlos_swag_data:
 
 

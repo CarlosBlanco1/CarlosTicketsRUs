@@ -19,7 +19,8 @@ public partial class PostgresContext : DbContext
     public virtual DbSet<Event> Events { get; set; }
 
     public virtual DbSet<Ticket> Tickets { get; set; }
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseNpgsql("Name=Postgres");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder

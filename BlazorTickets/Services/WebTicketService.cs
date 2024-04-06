@@ -4,16 +4,11 @@ using TicketLibrary.Data;
 using TicketLibrary.Services;
 namespace BlazorTickets.Services;
 
-public class WebTicketService : ITicketService
+public class WebTicketService(IDbContextFactory<PostgresContext> dbContextFactory) : ITicketService
 {
-    PostgresContext _context;
-    public WebTicketService(PostgresContext context)
+    public async Task AddATicket(Ticket t)
     {
-        _context = context;
-    }
-
-    public Task AddATicket(Ticket t)
-    {
+        var _context = await dbContextFactory.CreateDbContextAsync();
         try
         {
             t.Id = _context.Tickets.Max(t => t.Id) + 1;
@@ -21,7 +16,6 @@ public class WebTicketService : ITicketService
             _context.SaveChanges();
         }
         catch (Exception ex) { throw; }
-        return Task.CompletedTask;
     }
 
     public async Task ChangeBaseAddress(string newBaseAddress)
@@ -36,6 +30,7 @@ public class WebTicketService : ITicketService
 
     public async Task<List<Ticket>> GetAllTicketsAsync()
     {
+        var _context = await dbContextFactory.CreateDbContextAsync();
         return await _context.Tickets.ToListAsync<Ticket>();
     }
 
@@ -51,6 +46,7 @@ public class WebTicketService : ITicketService
 
     public async Task UpdateATicket(Ticket t)
     {
+        var _context = await dbContextFactory.CreateDbContextAsync();
         _context.Tickets.Update(t);
         _context.SaveChanges();
     }
