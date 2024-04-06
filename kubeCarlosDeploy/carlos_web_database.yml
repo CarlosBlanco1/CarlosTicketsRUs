@@ -33,7 +33,6 @@ spec:
       containers:
         - name: blazor-web-db
           image: postgres
-          restartPolicy: Always
           ports:
             - containerPort: 5432
           env:
@@ -58,6 +57,7 @@ spec:
             timeoutSeconds: 5
             periodSeconds: 10
             failureThreshold: 5
+      restartPolicy: Always
       volumes:
         - name: postgresstorage
           persistentVolumeClaim:
