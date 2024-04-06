@@ -37,7 +37,7 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_USER
-              value: postgres
+              value: ticketuser
             - name: POSTGRES_PASSWORD
               value: P@ssword1
             - name: POSTGRES_DB
@@ -50,7 +50,7 @@ spec:
       restartPolicy: Always
       volumes:
         - name: postgresstorage
-          persistentVolumeClaim:
+          persistentVolumeClaim: 
             claimName: blazor-web-db-pvc
         - name: init-script
           configMap:
