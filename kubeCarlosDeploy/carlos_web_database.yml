@@ -37,7 +37,7 @@ spec:
             - containerPort: 5432
           env:
             - name: POSTGRES_USER
-              value: ticketuser
+              value: postgres
             - name: POSTGRES_PASSWORD
               value: P@ssword1
             - name: POSTGRES_DB
@@ -47,6 +47,16 @@ spec:
               mountPath: /var/lib/postgresql/data
             - name: init-script
               mountPath: /docker-entrypoint-initdb.d
+          livenessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "postgres"
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 5
       volumes:
         - name: postgresstorage
           persistentVolumeClaim:
