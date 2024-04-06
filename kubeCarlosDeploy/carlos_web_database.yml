@@ -33,6 +33,7 @@ spec:
       containers:
         - name: blazor-web-db
           image: postgres
+          restartPolicy: Always
           ports:
             - containerPort: 5432
           env:
