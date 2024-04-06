@@ -52,9 +52,8 @@ spec:
           persistentVolumeClaim:
             claimName: blazor-web-db-pvc
         - name: init-script
-          hostPath:
-            path: /init.sql
-            type: File 
+          configMap:
+            name: blazor-web-postgres-init
 
 ---
 apiVersion: v1
