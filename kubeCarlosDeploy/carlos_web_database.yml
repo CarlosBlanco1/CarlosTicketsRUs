@@ -32,7 +32,6 @@ spec:
     spec:
       containers:
         - name: blazor-web-db
-          #command: [ "bin/sh", "-c", "psql -a -f /docker-entrypoint-initdb.d" ]
           image: postgres
           ports:
             - containerPort: 5432
@@ -48,6 +47,22 @@ spec:
               mountPath: /var/lib/postgresql/data
             - name: init-script
               mountPath: /docker-entrypoint-initdb.d
+          livenessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "postgres"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "postgres"
+            initialDelaySeconds: 5
+            periodSeconds: 5
       restartPolicy: Always
       volumes:
         - name: postgresstorage
@@ -56,6 +71,7 @@ spec:
         - name: init-script
           configMap:
             name: blazor-web-postgres-init
+  
 
 ---
 apiVersion: v1
