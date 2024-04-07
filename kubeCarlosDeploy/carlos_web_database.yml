@@ -32,12 +32,12 @@ spec:
     spec:
       containers:
         - name: blazor-web-db
-          command: [ "bin/sh", "-c", "psql -a -f /docker-entrypoint-initdb.d" ]
+          #command: [ "bin/sh", "-c", "psql -a -f /docker-entrypoint-initdb.d" ]
           image: postgres
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRES_USER
+            - name: POSTGRES_USER 
               value: ticketuser
             - name: POSTGRES_PASSWORD
               value: P@ssword1
