@@ -22,4 +22,4 @@ spec:
         - containerPort: 8080
         env:
             - name: Postgres
-              value: Server=blazor-web-db-service;password=P@ssword1;user id=ticketuser;database=postgres;
+              value: Server=blazor-web-db-service;password=P@ssword1;user id=postgres;database=postgres;
