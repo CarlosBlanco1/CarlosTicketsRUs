@@ -23,5 +23,3 @@ spec:
         env:
         - name: Postgres
           value: Server=blazor-web-db-service;password=P@ssword1;user id=postgres;database=postgres;
-        - name: DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE
-          value: false
