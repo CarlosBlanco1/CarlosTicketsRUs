@@ -54,12 +54,12 @@ spec:
       - name: init-script
         configMap:
           name: blazor-web-postgres-init
-      healthCheck:
-        exec:
-          command:
-          - pg_isready
-          - "-U"
-          - postgres
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - "-U"
+            - postgres
         initialDelaySeconds: 10
         periodSeconds: 10
         timeoutSeconds: 5
