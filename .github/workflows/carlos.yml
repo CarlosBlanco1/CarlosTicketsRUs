@@ -12,10 +12,18 @@ jobs:
      - name: deploy
        run: |
         cd ./CarlosTicketsRUs
+        
         docker build -t 144.17.92.12:5000/carlos/carlos-web:1 .
         docker push 144.17.92.12:5000/carlos/carlos-web:1
+
         kubectl delete configmap blazor-web-postgres-init -n carlos 
         kubectl -n carlos create configmap blazor-web-postgres-init --from-file=init.sql
+
+        cd kube-carlos-configs
+          kubectl delete configmap carlos-otel-config -n carlos || true
+          kubectl -n carlos create configmap carlos-otel-config --from-file=carlos-collector-config.yml
+        cd ..
+
         kubectl apply -f kubeCarlosDeploy/
     #  - name: "build"
     #    run: | 

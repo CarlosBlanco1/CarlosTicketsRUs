@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: carlos
+  name: carlos-collector-deployment
+  labels:
+    app: carlos-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carlos-collector
+  template:
+    metadata:
+      labels:
+        app: carlos-collector
+    spec:
+      containers:
+      - name: carlos-collector
+        image: otel/opentelemetry-collector-contrib:0.75.0
+        command: ['--config=/etc/otel-collector-config.yaml']
+        ports:
+        - containerPort: 4317
+        volumeMounts:
+        - name: carlos-config-volume
+          mountPath: /etc/otel-collector-config.yaml
+          subPath: carlos-collector-config.yml
+
+
+      volumes:
+        - name: carlos-otel-config
+          configMap:
+            name: carlos-otel-config
