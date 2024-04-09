@@ -26,8 +26,7 @@ spec:
           mountPath: /etc/otel-collector-config.yaml
           subPath: carlos-collector-config.yml
 
-
       volumes:
-        - name: carlos-otel-config
-          configMap:
-            name: carlos-otel-config
+      - name: carlos-otel-config
+        configMap:
+          name: carlos-otel-config
