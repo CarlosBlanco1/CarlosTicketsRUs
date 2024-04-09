@@ -23,3 +23,5 @@ spec:
         env:
         - name: Postgres
           value: Server=blazor-web-db-service;password=P@ssword1;user id=postgres;database=postgres;
+        - name: COLLECTOR_URL
+          value: http://carlos-collector-service:4317/

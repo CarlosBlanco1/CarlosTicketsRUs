@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: carlos
+  name: carlos-grafana-deployment
+  labels:
+    app: carlos-grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carlos-grafana
+  template:
+    metadata:
+      labels:
+        app: carlos-grafana
+    spec:
+      containers:
+      - name: carlos-grafana
+        image: grafana/grafana:2.8.0
+        command: ['-config.file=/etc/grafana/local-config.yaml']
+        ports:
+        - containerPort: 3100

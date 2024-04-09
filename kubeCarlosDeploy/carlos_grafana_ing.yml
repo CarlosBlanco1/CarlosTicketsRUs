@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: carlos
+  name: carlos-grafana-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: grafana.carlos-kube.duckdns.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: carlos-grafana-service
+            port:
+              number: 80
