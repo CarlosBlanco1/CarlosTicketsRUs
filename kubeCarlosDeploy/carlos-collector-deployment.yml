@@ -18,7 +18,7 @@ spec:
       containers:
       - name: carlos-collector
         image: otel/opentelemetry-collector-contrib:0.75.0
-        command: ['--config=/etc/otel-collector-config.yaml']
+        # command: ['--config=/etc/otel-collector-config.yaml']
         ports:
         - containerPort: 4317
         volumeMounts:
