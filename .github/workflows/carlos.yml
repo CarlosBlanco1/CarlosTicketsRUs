@@ -20,8 +20,10 @@ jobs:
         kubectl -n carlos create configmap blazor-web-postgres-init --from-file=init.sql
 
         cd kube-carlos-configs
-          kubectl delete configmap carlos-otel-config -n carlos || true
-          kubectl -n carlos create configmap carlos-otel-config --from-file=carlos-collector-config.yml
+        kubectl delete configmap carlos-otel-config -n carlos || true
+        kubectl -n carlos create configmap carlos-otel-config --from-file=carlos-collector-config.yml     
+        kubectl delete configmap carlos-grafana-datasource-config -n carlos || true
+        kubectl -n carlos create configmap carlos-grafana-datasource-config --from-file=carlos-datasource.yml
         cd ..
 
         kubectl apply -f kubeCarlosDeploy/

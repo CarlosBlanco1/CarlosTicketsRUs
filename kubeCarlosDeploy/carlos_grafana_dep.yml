@@ -17,7 +17,22 @@ spec:
     spec:
       containers:
       - name: carlos-grafana
-        image: grafana/grafana:2.8.0
-        command: ['-config.file=/etc/grafana/local-config.yaml']
+        image: grafana/grafana:9.4.7
         ports:
-        - containerPort: 3100
+        - containerPort: 3000
+        env:
+        - name: GF_AUTH_ANONYMOUS_ENABLED
+          value: "true"
+        - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+          value: Admin
+        - name: GF_AUTH_DISABLE_LOGIN_FORM
+          value: "true"
+        volumeMounts:
+        - name: datasources
+          mountPath: /etc/grafana/provisioning
+          subPath: carlos-datasource.yml
+
+      volumes:
+      - name: datasources
+        configMap:
+          name: carlos-grafana-datasource-config

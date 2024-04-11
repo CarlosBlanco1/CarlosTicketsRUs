@@ -22,7 +22,7 @@ spec:
         ports:
         - containerPort: 4317
         volumeMounts:
-        - name: carlos-config-volume
+        - name: carlos-otel-config
           mountPath: /etc/otel-collector-config.yaml
           subPath: carlos-collector-config.yml
 
