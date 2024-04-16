@@ -11,4 +11,6 @@ jobs:
           kubectl -n carlos exec -t $CONTAINER_NAME -- \
             pg_dumpall -c -U postgres \
             > /home/carlos/dump.sql
+          cat dump.sql | kubectl exec -i $CONTAINER_NAME psql -U postgres
 
+ 
