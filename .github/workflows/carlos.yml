@@ -1,32 +1,41 @@
 name: carlosRunner
-on: [push] 
-jobs: 
-  DeployingPipeline: 
+on: [push]
+jobs:
+  DeployingPipeline:
     runs-on: carloslabel
-    steps: 
-     - name: "cleaning"
-       run: |
-        rm -rf ./CarlosTicketsRUs
-     - name: "cloning"
-       run: git clone https://github.com/CarlosBlanco1/CarlosTicketsRUs.git
-     - name: deploy
-       run: |
-        cd ./CarlosTicketsRUs
-        
-        docker build -t 144.17.92.12:5000/carlos/carlos-web:$GITHUB_RUN_ID .
-        docker push 144.17.92.12:5000/carlos/carlos-web:$GITHUB_RUN_ID
+    steps:
+      - name: "cleaning"
+        run: |
+          rm -rf ./CarlosTicketsRUs
+      - name: "cloning"
+        run: git clone https://github.com/CarlosBlanco1/CarlosTicketsRUs.git
+      - name: deploy
+        run: |
+          cd ./CarlosTicketsRUs
 
-        kubectl delete configmap blazor-web-postgres-init -n carlos 
-        kubectl -n carlos create configmap blazor-web-postgres-init --from-file=init.sql
+          docker build -t 144.17.92.12:5000/carlos/carlos-web:$GITHUB_RUN_ID .
+          docker push 144.17.92.12:5000/carlos/carlos-web:$GITHUB_RUN_ID
 
-        cd kube-carlos-configs
-        kubectl delete configmap carlos-otel-config -n carlos || true
-        kubectl -n carlos create configmap carlos-otel-config --from-file=carlos-collector-config.yml     
-        kubectl delete configmap carlos-grafana-datasource-config -n carlos || true
-        kubectl -n carlos create configmap carlos-grafana-datasource-config --from-file=carlos-datasource.yml
-        cd ..
+          kubectl delete configmap blazor-web-postgres-init -n carlos 
+          kubectl -n carlos create configmap blazor-web-postgres-init --from-file=init.sql
 
-        kubectl apply -f kubeCarlosDeploy/
+          cd kube-carlos-configs
+
+          kubectl delete configmap carlos-otel-config -n carlos || true
+          kubectl -n carlos create configmap carlos-otel-config --from-file=carlos-collector-config.yml  
+
+          kubectl delete configmap carlos-grafana-datasource-config -n carlos || true
+          kubectl -n carlos create configmap carlos-grafana-datasource-config --from-file=carlos-datasource.yml
+
+          cd ..
+
+          RUN_ID=${{ github.run_id }}
+          for file in ./kubeCarlosDeploy/*; do
+            echo "Applying $file"
+            cat $file | envsub | kubectl apply -f -
+          done
+
+
     #  - name: "build"
     #    run: | 
     #     cd ./CarlosTicketsRUs/StagingCarlos
