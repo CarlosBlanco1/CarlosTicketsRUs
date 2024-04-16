@@ -1,0 +1,14 @@
+name: backup database
+on:
+  - workflow_dispatch
+jobs:
+  backup:
+    runs-on: self-hosted
+    steps:
+      - name: backup
+        run: |
+          CONTAINER_NAME= kubectl -n carlos get pods --no-headers -o custom-columns=":metadata.name" | grep "blazor-web-db-deployment"
+          kubectl -n carlos exec -t $CONTAINER_NAME -- \
+            pg_dumpall -c -U postgres \
+            > /home/carlos/dump.sql
+
