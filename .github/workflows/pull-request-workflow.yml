@@ -12,7 +12,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # - name: Run tests
-    #   run: |
-    #     # Your testing commands here
-
+    - name: deploy kubernetes environment
+      run: |
+        export PULL_REQUEST_ID = ${{ github.event.pull_request.number }}
+        kubectl create namaspace carlos-pr-$PULL_REQUEST_ID
+ 
