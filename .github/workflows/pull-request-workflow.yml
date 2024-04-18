@@ -2,18 +2,17 @@ name: Pull Request Workflow
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened]
 
 jobs:
   deploy-to-kubernetes:
     runs-on: self-hosted
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: deploy kubernetes environment
-      run: |
-        export PULL_REQUEST_ID = ${{ github.event.pull_request.number }}
-        kubectl create namaspace carlos-pr-$PULL_REQUEST_ID
- 
+      - name: deploy kubernetes environment
+        run: |
+          export PULL_REQUEST_ID=${{ github.event.pull_request.number }}
+          kubectl create namespace carlos-pr-$PULL_REQUEST_ID
