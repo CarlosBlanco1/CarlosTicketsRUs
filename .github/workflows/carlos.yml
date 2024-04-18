@@ -1,5 +1,7 @@
 name: carlosRunner
-on: [push]
+on:
+  push:
+    branches: [main]
 jobs:
   DeployingPipeline:
     runs-on: carloslabel
