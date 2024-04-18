@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${NAMESPACE}
+  name: carlos-web-deployment
+  labels:
+    app: carlos-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carlos-web
+  template:
+    metadata:
+      labels:
+        app: carlos-web
+    spec:
+      containers:
+      - name: carlos-web
+        image: 144.17.92.12:5000/carlos/carlos-web:${RUN_SALT}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: Postgres
+          value: Server=blazor-web-db-service;password=P@ssword1;user id=postgres;database=postgres;
+        - name: COLLECTOR_URL
+          value: http://carlos-collector-service:4317/

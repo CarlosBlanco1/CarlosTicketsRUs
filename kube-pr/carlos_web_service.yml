@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${NAMESPACE}
+  name: carlos-web-service
+spec:
+  type: ClusterIP
+  selector:
+    app: carlos-web
+  ports:
+    - port: 80
+      targetPort: 8080
