@@ -3,10 +3,14 @@ kind: Ingress
 metadata:
   namespace: carlos
   name: carlos-web-ingress
+  annotations:
+    cert-managaer/io/cluster-issuer: cert-manager-webhook-duckdns-carlos-production
 spec:
   ingressClassName: nginx
   rules:
-  - host: carlos-kube.duckdns.org
+  - host: 
+    - carlos-kube.duckdns.org
+    secretName: carlos-kube-tls-carlos-production
     http:
       paths:
       - path: /
